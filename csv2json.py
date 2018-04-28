@@ -77,8 +77,11 @@ def buildtree(t=None, parent=''):
 		if t is None:
 			t = node
 		else:
-			children = t.setdefault(attributesLabel, []) 
-			children.append(node)
+			if attributesLabel =="":
+				print("there are sub elements that don't have a parent, this script will fail to generate the proper result")
+			else:
+				children = t.setdefault(attributesLabel, []) 
+				children.append(node)
 			
 			
 		buildtree(node, node[nodeColumn])
