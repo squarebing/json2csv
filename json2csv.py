@@ -5,12 +5,19 @@ import sys
 import time
 import pprint
 import uuid
+import configparser
 
-#Config
-parentColumn="PARENT"
-nodeColumn="NODE"
-subItemEscapeChar="$$$"
-simpleListEscapeChar="|||"
+try:
+	config = configparser.ConfigParser()
+	config.read('config.ini')
+
+	parentColumn=config['DEFAULT']['parentColumn'] 
+	nodeColumn=config['DEFAULT']['nodeColumn'] 
+	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
+	simpleListEscapeChar=config['DEFAULT']['simpleListEscapeChar'] 
+except:
+	print("Cannot read config file")
+	sys.exit(0)
 
 if len(sys.argv)<2:
 	print("Usage: josn2csv.py <file.json>")

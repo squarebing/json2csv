@@ -4,13 +4,21 @@ import json
 import sys
 import time
 import re
+import configparser
 
-#Config
-parentColumn="PARENT"
-nodeColumn="NODE"
-subItemEscapeChar="$$$"
-simpleListEscapeChar="|||"
+try:
+	config = configparser.ConfigParser()
+	config.read('config.ini')
 
+	parentColumn=config['DEFAULT']['parentColumn'] 
+	nodeColumn=config['DEFAULT']['nodeColumn'] 
+	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
+	simpleListEscapeChar=config['DEFAULT']['simpleListEscapeChar'] 
+except:
+	print("Cannot read config file")
+	sys.exit(0)
+	
+	
 if len(sys.argv)<2:
 	print("Usage: csv2json.py <file.csv>")
 	sys.exit(0)
@@ -59,7 +67,7 @@ def buildtree(t=None, parent=''):
 	
 	if rows is None:
 		return t
-			
+		
 	for row in rows:
 
 		node = {}
