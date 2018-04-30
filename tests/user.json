@@ -36,7 +36,6 @@
                     "mutability": "readWrite",
                     "returned": "default",
                     "uniqueness": "none",
-                    "CTERules": "read-only",
                     "dataClassification": "personal"
                 },
                 {
@@ -325,7 +324,6 @@
             "multiValued": true,
             "description": "Instant messaging addresses for the User.",
             "required": false,
-            "CTERules": "read-only",
             "subAttributes": [
                 {
                     "name": "id",
