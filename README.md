@@ -1,18 +1,22 @@
 # json2csv and csv2json
+
 These two python scripts onvert files between JSON and CSV. They are tested with Python 3.6.5
 
-# Requirements
+## Requirements
+
 - The JSON structure can have nested attributes. However, every array element in the json MUST have an attribute.
 - Please make sure the JSON file doesn't contain any special atttributes, as defined in config.ini
 
-# Usage
-```
+## Usage
+
+```sh
 python json2csv.py <JSON file>
 python csv2json.py <CSV file>
 ```
 
-# Json that works
-```
+## Json that works
+
+```json
 {
     "id": "User:1.0",
     "name": "User",
@@ -38,7 +42,7 @@ python csv2json.py <CSV file>
                 {
                     "name": "lastName",
                     "type": "string",
-                    "multiValued": false
+                    "multiValued": true
                 }
             ]
         }
@@ -46,7 +50,8 @@ python csv2json.py <CSV file>
 }
 ```
 
-# Json that doesn't work
+## Json that doesn't work
+
 ```json
 [
   {
@@ -57,4 +62,3 @@ python csv2json.py <CSV file>
   }
 ]
 ```
-

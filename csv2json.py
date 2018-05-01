@@ -5,6 +5,8 @@ import sys
 import time
 import re
 import configparser
+from distutils.util import strtobool
+
 
 try:
 	config = configparser.ConfigParser()
@@ -14,6 +16,8 @@ try:
 	nodeColumn=config['DEFAULT']['nodeColumn'] 
 	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
 	simpleListEscapeChar=config['DEFAULT']['simpleListEscapeChar'] 
+	booleanEscapeChar=config['DEFAULT']['booleanEscapeChar'] 
+	
 except:
 	print("Cannot read config file")
 	sys.exit(0)
@@ -40,7 +44,7 @@ try:
 except:
 	print("Cannot find parent column or the node column")
 	sys.exit(0)
-
+  
 # contstruct list of parents
 parents = defaultdict(list)
 attributes = {}
@@ -79,7 +83,10 @@ def buildtree(t=None, parent=''):
 				else:
 					if row[fields.index(field)].find(simpleListEscapeChar)== 0:
 						node[field]=json.loads(row[fields.index(field)].replace(simpleListEscapeChar,""))
+					elif row[fields.index(field)].find(booleanEscapeChar)== 0:
+						node[field]=bool(strtobool(row[fields.index(field)].replace(booleanEscapeChar,"")))
 					else:
+
 						node[field]=row[fields.index(field)]
 		
 		if t is None:

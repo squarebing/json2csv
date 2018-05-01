@@ -15,6 +15,8 @@ try:
 	nodeColumn=config['DEFAULT']['nodeColumn'] 
 	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
 	simpleListEscapeChar=config['DEFAULT']['simpleListEscapeChar'] 
+	booleanEscapeChar=config['DEFAULT']['booleanEscapeChar'] 
+		
 except:
 	print("Cannot read config file")
 	sys.exit(0)
@@ -67,8 +69,11 @@ def traverse(data, parent, current):
 		for key in keys:
 			node[key]=''
 			if key in data:
-				if type(data[key]) != type(dict()) and type(data[key]) != type(list()):
-					node[key]=data[key]
+				if type(data[key]) != type(dict()) and type(data[key]) != type(list()) :
+					if type(data[key]) == type(bool()):
+						node[key]=booleanEscapeChar + str(data[key])+ booleanEscapeChar
+					else:
+						node[key]=data[key]
 				elif type(data[key]) == type(list()):
 					if isListsimple(data[key]):
 						node[key] =simpleListEscapeChar+json.dumps(data[key])+simpleListEscapeChar
