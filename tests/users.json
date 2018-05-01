@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "8773fe-ffff-42837498757",
+      "externalId": "239482347928374",
+      "userName": "mona@example.com",
+      "name": {
+        "givenName": "mona",
+        "familyName": "octocat"
+      },
+      "active": true
+    },
+    {
+      "id": "77563764-eb6-24-0598234-958243",
+      "externalId": "sdfoiausdofiua",
+      "userName": "hubot@example.com",
+      "name": {
+        "givenName": "hu",
+        "familyName": "bot"
+      },
+      "active": false
+    }
+  ]
+}
