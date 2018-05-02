@@ -78,9 +78,9 @@ def traverse(data, parent, current):
 					if isListsimple(data[key]):
 						node[key] =simpleListEscapeChar+json.dumps(data[key])+simpleListEscapeChar
 					else:
-						node[key]= subItemEscapeChar+key+subItemEscapeChar
+						node[key]= subItemEscapeChar+key+subItemEscapeChar+"list"+subItemEscapeChar
 				elif type(data[key]) == type(dict()):
-					node[key]= subItemEscapeChar+key+subItemEscapeChar
+					node[key]= subItemEscapeChar+key+subItemEscapeChar+"dict"+subItemEscapeChar
 
 						
 		csv_data.append(node)

@@ -48,15 +48,26 @@ except:
 # contstruct list of parents
 parents = defaultdict(list)
 attributes = {}
+attributeTypes = {}
 for row in csvData:
 	parents[row[parentIndex]].append(row)
 	
 	for field in fields:
 		if row[fields.index(field)].find(subItemEscapeChar)== 0:
-			attributes[row[nodeIndex]]= row[fields.index(field)].replace(subItemEscapeChar,"")
-	
+			if  row[fields.index(field)].find(subItemEscapeChar+"list"+subItemEscapeChar)> 0:
+				attributeTypes[row[nodeIndex]] ="list"
+
+			elif  row[fields.index(field)].find(subItemEscapeChar+"dict"+subItemEscapeChar)> 0:
+				attributeTypes[row[nodeIndex]] ="dict"
+
+			attributes[row[nodeIndex]]= row[fields.index(field)].replace(subItemEscapeChar+"list"+subItemEscapeChar,"")
+			attributes[row[nodeIndex]]= attributes[row[nodeIndex]].replace(subItemEscapeChar+"dict"+subItemEscapeChar,"")
+			attributes[row[nodeIndex]]= attributes[row[nodeIndex]].replace(subItemEscapeChar,"")
+
+
 #print(parents)
 #print(attributes)
+#print(attributeTypes)
 
 def buildtree(t=None, parent=''):
 	
@@ -64,13 +75,18 @@ def buildtree(t=None, parent=''):
 	rows = parents.get(parent, None)
 	
 	attributesLabel=""
+	attrType=""
+
+
 	try:
 		attributesLabel = attributes[parent]
+		attrType = attributeTypes[parent]
 	except:
 		pass
-	
+
 	if rows is None:
 		return t
+
 		
 	for row in rows:
 
@@ -86,14 +102,16 @@ def buildtree(t=None, parent=''):
 					elif row[fields.index(field)].find(booleanEscapeChar)== 0:
 						node[field]=bool(strtobool(row[fields.index(field)].replace(booleanEscapeChar,"")))
 					else:
-
 						node[field]=row[fields.index(field)]
 		
 		if t is None:
 			t = node
 		else:
+			#print(attrType,len(rows) )
 			if attributesLabel =="":
 				print("there are sub elements that don't have a parent, this script will fail to generate the proper result")
+			elif attrType =="dict" and len(rows) ==1:
+				t[attributesLabel]= node
 			else:
 				children = t.setdefault(attributesLabel, []) 
 				children.append(node)
