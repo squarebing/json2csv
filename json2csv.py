@@ -11,6 +11,7 @@ try:
 	config = configparser.ConfigParser()
 	config.read('config.ini')
 
+	rootColumn=config['DEFAULT']['rootColumn'] 
 	parentColumn=config['DEFAULT']['parentColumn'] 
 	nodeColumn=config['DEFAULT']['nodeColumn'] 
 	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
@@ -29,9 +30,18 @@ elif len(sys.argv)==2:
 	
 csv_data=[]
 keys= []
+jsonData={}
   
 with open(file) as json_data:
 	d = json.load(json_data)
+
+#Check if the input JSON is an array
+if type(d)==type(list()):
+	jsonData[rootColumn]=d 
+	#print(jsonData)
+else:
+	jsonData=d
+
 
 def getKeys(data):
 	global keys
@@ -97,9 +107,9 @@ def traverse(data, parent, current):
 				pass		
 				
 
-getKeys(d)
+getKeys(jsonData)
 #print(keys)
-traverse(d, None, uuid.uuid4())
+traverse(jsonData, None, uuid.uuid4())
 
 outFile = file +'_'+ str(int(time.time()))+'.csv'
 write_header = True

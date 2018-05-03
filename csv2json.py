@@ -12,6 +12,7 @@ try:
 	config = configparser.ConfigParser()
 	config.read('config.ini')
 
+	rootColumn=config['DEFAULT']['rootColumn'] 
 	parentColumn=config['DEFAULT']['parentColumn'] 
 	nodeColumn=config['DEFAULT']['nodeColumn'] 
 	subItemEscapeChar=config['DEFAULT']['subItemEscapeChar'] 
@@ -120,7 +121,7 @@ def buildtree(t=None, parent=''):
 		buildtree(node, node[nodeColumn])
 	
 	return t
-	
+
 data = buildtree()
 
 def stripParentNode(data):
@@ -137,8 +138,11 @@ def stripParentNode(data):
 		
 data = stripParentNode(data)
 
-#j=json.loads(json.dumps(data))
-#print( json.dumps(data, sort_keys=False, indent=2, separators=(',', ': ')))
+#if the final json has the rootColumn, that means the original json contains an array, so we need to string out that"
+try:
+	data = data[rootColumn]
+except:
+	pass
 
 outrFile = file+'_'+ str(int(time.time()))+'.json'
 
